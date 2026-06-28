@@ -156,8 +156,9 @@
   .chat-header .status{opacity:.7; font-size:.7rem;}
   .chat-body{
     flex:1; padding:16px 12px; display:flex; flex-direction:column; gap:10px;
-    overflow:hidden;
+    overflow-y:auto;
   }
+  .chat-body::-webkit-scrollbar{width:0;}
   .bubble{
     max-width:84%; padding:9px 13px; border-radius:14px; font-size:.78rem; line-height:1.42;
     opacity:0; animation:rise .5s ease forwards;
@@ -173,6 +174,35 @@
   .bubble .tag{display:block; font-size:.66rem; color:var(--green-leaf); font-weight:700; margin-bottom:3px;}
   @keyframes rise{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
   .b1{animation-delay:.2s;} .b2{animation-delay:1s;} .b3{animation-delay:1.9s;} .b4{animation-delay:2.7s;}
+
+  .chat-input-row{
+    display:flex; align-items:center; gap:8px;
+    padding:10px 12px; background:#DCD5BE;
+    border-top:1px solid rgba(0,0,0,0.06);
+  }
+  .chat-input{
+    flex:1; border:none; outline:none; border-radius:20px;
+    padding:9px 14px; font-size:.78rem; font-family:'Inter',sans-serif;
+    background:#fff; color:var(--ink);
+  }
+  .chat-input::placeholder{color:#999;}
+  .chat-send{
+    width:32px; height:32px; border-radius:50%; border:none;
+    background:var(--green-leaf); color:#fff; font-size:.85rem;
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    transition:transform .15s ease, background .15s ease;
+    flex-shrink:0;
+  }
+  .chat-send:hover{background:var(--green-deep); transform:scale(1.06);}
+  .chat-send:active{transform:scale(0.94);}
+  .typing-dots{display:inline-flex; gap:3px; padding:2px 0;}
+  .typing-dots span{
+    width:5px; height:5px; border-radius:50%; background:#999;
+    animation:bounce 1.2s infinite ease-in-out;
+  }
+  .typing-dots span:nth-child(2){animation-delay:.15s;}
+  .typing-dots span:nth-child(3){animation-delay:.3s;}
+  @keyframes bounce{ 0%,80%,100%{transform:translateY(0); opacity:.4;} 40%{transform:translateY(-3px); opacity:1;} }
 
   .receipt-float{
     position:absolute; right:-26px; bottom:46px;
@@ -323,6 +353,59 @@
   }
   .price-card.featured .btn-tier{background:var(--green-deep); color:#fff;}
 
+  /* ---------- CALCULATOR ---------- */
+  .calc-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:40px;
+    background:#fff; border:1px solid var(--line); border-radius:24px;
+    padding:44px; align-items:center;
+  }
+  @media (max-width:860px){ .calc-grid{grid-template-columns:1fr; padding:28px;} }
+  .calc-field{margin-bottom:30px;}
+  .calc-field:last-child{margin-bottom:0;}
+  .calc-label{
+    display:flex; justify-content:space-between; align-items:baseline;
+    font-size:.92rem; font-weight:500; color:#3a3a3a; margin-bottom:12px;
+  }
+  .calc-value{
+    font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--green-deep);
+    background:var(--paper-dim); padding:3px 10px; border-radius:8px; font-size:.85rem;
+  }
+  .calc-slider{
+    width:100%; height:6px; border-radius:10px;
+    background:var(--paper-dim); outline:none; -webkit-appearance:none; appearance:none;
+  }
+  .calc-slider::-webkit-slider-thumb{
+    -webkit-appearance:none; appearance:none;
+    width:22px; height:22px; border-radius:50%;
+    background:var(--green-leaf); border:3px solid #fff;
+    box-shadow:0 2px 8px rgba(11,61,46,0.35); cursor:pointer;
+  }
+  .calc-slider::-moz-range-thumb{
+    width:22px; height:22px; border-radius:50%; border:3px solid #fff;
+    background:var(--green-leaf); box-shadow:0 2px 8px rgba(11,61,46,0.35); cursor:pointer;
+  }
+  .calc-output{
+    background:var(--green-deep); border-radius:18px; padding:32px;
+    color:var(--paper);
+  }
+  .calc-result-row{display:flex; gap:24px; margin-bottom:22px;}
+  .calc-stat{flex:1;}
+  .calc-stat-num{
+    font-family:'Space Grotesk',sans-serif; font-size:1.9rem; font-weight:700;
+  }
+  .calc-stat-num.accent{color:var(--orange);}
+  .calc-stat-label{font-size:.8rem; color:rgba(255,248,236,0.68); margin-top:2px;}
+  .calc-divider{height:1px; background:rgba(255,255,255,0.14); margin-bottom:22px;}
+  .calc-savings-label{font-size:.82rem; color:rgba(255,248,236,0.75); margin-bottom:6px;}
+  .calc-savings-num{
+    font-family:'Space Grotesk',sans-serif; font-size:2.3rem; font-weight:700;
+    color:var(--green-leaf); margin-bottom:8px;
+  }
+  .calc-savings-sub{font-size:.85rem; color:rgba(255,248,236,0.78); line-height:1.5; margin-bottom:24px;}
+  .calc-savings-sub b{color:#fff;}
+  .calc-cta{width:100%; justify-content:center; background:var(--orange); color:#1A1A1A;}
+  .calc-cta:hover{background:#ffb55c; box-shadow:0 10px 24px -8px rgba(0,0,0,0.3);}
+
   /* ---------- CTA BAND ---------- */
   .cta-band{
     background:var(--orange);
@@ -368,6 +451,7 @@
       <a href="#problem">Why it matters</a>
       <a href="#features">What it does</a>
       <a href="#how">How it works</a>
+      <a href="#calculator">Your savings</a>
       <a href="#pricing">Pricing</a>
     </div>
     <a class="nav-cta" href="#cta">Get early access</a>
@@ -396,11 +480,12 @@
               <div class="status">online</div>
             </div>
           </div>
-          <div class="chat-body">
-            <div class="bubble out b1">Niliuza unga 2 bags @ 300</div>
-            <div class="bubble in b2"><span class="tag">✅ IMEREKODIWA</span>Unga bags 2 × KSh 300 = <b>KSh 600</b><br>Pesa imeingia kwenye hesabu yako 👍</div>
-            <div class="bubble out b3">Ripoti ya leo</div>
-            <div class="bubble in b4"><span class="tag">📊 RIPOTI YA LEO</span>Mauzo: <b>KSh 4,250</b><br>Faida: <b>KSh 1,180</b><br>Bidhaa bora: Unga, Sukari</div>
+          <div class="chat-body" id="simChatBody">
+            <div class="bubble in b1"><span class="tag">👋 KARIBU</span>Type a sale below — try "Niliuza unga 2 bags @ 300" or your own.</div>
+          </div>
+          <div class="chat-input-row">
+            <input type="text" id="simInput" class="chat-input" placeholder="Niliuza sukari 1kg @ 180" maxlength="60">
+            <button id="simSend" class="chat-send" aria-label="Send">➤</button>
           </div>
         </div>
       </div>
@@ -532,6 +617,64 @@
   </div>
 </section>
 
+<section id="calculator">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="kicker">See your numbers</div>
+      <h2 class="section-title">How much time and money are you really losing?</h2>
+      <p class="section-desc">Move the sliders to match your business — the estimate updates instantly.</p>
+    </div>
+
+    <div class="calc-grid reveal">
+      <div class="calc-inputs">
+        <div class="calc-field">
+          <div class="calc-label">
+            <span>Sales transactions per day</span>
+            <span class="calc-value" id="calcTxnVal">25</span>
+          </div>
+          <input type="range" id="calcTxn" min="5" max="150" value="25" step="5" class="calc-slider">
+        </div>
+
+        <div class="calc-field">
+          <div class="calc-label">
+            <span>Hours spent on bookkeeping & messages per day</span>
+            <span class="calc-value" id="calcHoursVal">2 hrs</span>
+          </div>
+          <input type="range" id="calcHours" min="0.5" max="6" value="2" step="0.5" class="calc-slider">
+        </div>
+
+        <div class="calc-field">
+          <div class="calc-label">
+            <span>What's an hour of your time worth?</span>
+            <span class="calc-value" id="calcRateVal">KSh 300</span>
+          </div>
+          <input type="range" id="calcRate" min="100" max="1000" value="300" step="50" class="calc-slider">
+        </div>
+      </div>
+
+      <div class="calc-output">
+        <div class="calc-result-row">
+          <div class="calc-stat">
+            <div class="calc-stat-num" id="calcMonthlyHours">60</div>
+            <div class="calc-stat-label">hours/month on admin</div>
+          </div>
+          <div class="calc-stat">
+            <div class="calc-stat-num accent" id="calcMonthlyValue">KSh 18,000</div>
+            <div class="calc-stat-label">worth of your time</div>
+          </div>
+        </div>
+        <div class="calc-divider"></div>
+        <div class="calc-savings">
+          <div class="calc-savings-label">Estimated time back with Biashara AI</div>
+          <div class="calc-savings-num" id="calcSavedHours">~48 hrs/month</div>
+          <div class="calc-savings-sub">at just <b>KSh 999/month</b> — that's <span id="calcROI">18×</span> your subscription cost back in time saved</div>
+        </div>
+        <a class="btn-primary calc-cta" href="#cta">Claim those hours back →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="pricing">
   <div class="wrap">
     <div class="section-head reveal">
@@ -620,6 +763,151 @@
     entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('show'); } });
   }, {threshold:0.12});
   els.forEach(el=>obs.observe(el));
+
+  /* ---------- INTERACTIVE CHAT SIMULATOR ---------- */
+  (function(){
+    const body  = document.getElementById('simChatBody');
+    const input = document.getElementById('simInput');
+    const send  = document.getElementById('simSend');
+    if (!body || !input || !send) return;
+
+    const ITEM_PRICES = {
+      'unga':300,'sukari':180,'mafuta':350,'mchele':220,'maharagwe':150,
+      'mandazi':20,'soda':60,'maziwa':60,'mkate':60,'chai':50
+    };
+
+    function scrollToBottom(){ body.scrollTop = body.scrollHeight; }
+
+    function addBubble(html, type){
+      const div = document.createElement('div');
+      div.className = `bubble ${type}`;
+      div.style.animation = 'rise .35s ease forwards';
+      div.innerHTML = html;
+      body.appendChild(div);
+      scrollToBottom();
+      return div;
+    }
+
+    function showTyping(){
+      const div = document.createElement('div');
+      div.className = 'bubble in';
+      div.id = 'typingBubble';
+      div.innerHTML = '<span class="typing-dots"><span></span><span></span><span></span></span>';
+      body.appendChild(div);
+      scrollToBottom();
+    }
+    function removeTyping(){
+      const t = document.getElementById('typingBubble');
+      if (t) t.remove();
+    }
+
+    function parseAndRespond(text){
+      const lower = text.toLowerCase();
+
+      // try to find "item N @ price" or "item @ price" pattern
+      const atMatch = lower.match(/([a-z\s]+?)\s*(\d+)?\s*(?:bags?|kg|pcs|pieces)?\s*@\s*(\d+)/);
+      let item, qty, price, total;
+
+      if (atMatch) {
+        item  = atMatch[1].trim().split(' ').pop() || 'bidhaa';
+        qty   = atMatch[2] ? parseInt(atMatch[2]) : 1;
+        price = parseInt(atMatch[3]);
+        total = qty * price;
+      } else {
+        // fallback: look for known item name + any number
+        const foundItem = Object.keys(ITEM_PRICES).find(k => lower.includes(k));
+        const numMatch = lower.match(/(\d+)/);
+        if (foundItem) {
+          item  = foundItem;
+          qty   = numMatch ? parseInt(numMatch[1]) : 1;
+          price = ITEM_PRICES[foundItem];
+          total = qty * price;
+        } else if (lower.includes('ripoti') || lower.includes('report')) {
+          return { type:'report' };
+        } else {
+          return { type:'unknown' };
+        }
+      }
+      return { type:'sale', item, qty, price, total };
+    }
+
+    function handleSend(){
+      const text = input.value.trim();
+      if (!text) return;
+
+      addBubble(text.replace(/</g,'&lt;'), 'out');
+      input.value = '';
+      showTyping();
+
+      setTimeout(() => {
+        removeTyping();
+        const result = parseAndRespond(text);
+
+        if (result.type === 'sale') {
+          const itemLabel = result.item.charAt(0).toUpperCase() + result.item.slice(1);
+          addBubble(
+            `<span class="tag">✅ IMEREKODIWA</span>${itemLabel} ${result.qty} × KSh ${result.price.toLocaleString()} = <b>KSh ${result.total.toLocaleString()}</b><br>Pesa imeingia kwenye hesabu yako 👍`,
+            'in'
+          );
+        } else if (result.type === 'report') {
+          addBubble(
+            `<span class="tag">📊 RIPOTI YA LEO</span>Mauzo: <b>KSh 4,250</b><br>Faida: <b>KSh 1,180</b><br>Bidhaa bora: Unga, Sukari`,
+            'in'
+          );
+        } else {
+          addBubble(
+            `Sawa! Try something like <i>"Niliuza sukari 1kg @ 180"</i> or type "ripoti ya leo" 📝`,
+            'in'
+          );
+        }
+      }, 700 + Math.random()*500);
+    }
+
+    send.addEventListener('click', handleSend);
+    input.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSend(); });
+  })();
+
+  /* ---------- SAVINGS CALCULATOR ---------- */
+  (function(){
+    const txn   = document.getElementById('calcTxn');
+    const hours = document.getElementById('calcHours');
+    const rate  = document.getElementById('calcRate');
+    if (!txn || !hours || !rate) return;
+
+    const txnVal    = document.getElementById('calcTxnVal');
+    const hoursVal  = document.getElementById('calcHoursVal');
+    const rateVal   = document.getElementById('calcRateVal');
+    const monthlyHoursEl = document.getElementById('calcMonthlyHours');
+    const monthlyValueEl = document.getElementById('calcMonthlyValue');
+    const savedHoursEl   = document.getElementById('calcSavedHours');
+    const roiEl           = document.getElementById('calcROI');
+
+    const SUBSCRIPTION = 999;
+    const TIME_RECOVERY_RATE = 0.8; // Biashara AI removes ~80% of manual admin time
+
+    function update(){
+      const dailyHours = parseFloat(hours.value);
+      const hourlyRate = parseInt(rate.value);
+
+      const monthlyHours = Math.round(dailyHours * 30);
+      const monthlyValue = Math.round(monthlyHours * hourlyRate);
+      const savedHours   = Math.round(monthlyHours * TIME_RECOVERY_RATE);
+      const savedValue   = Math.round(savedHours * hourlyRate);
+      const roi          = Math.max(1, Math.round(savedValue / SUBSCRIPTION));
+
+      txnVal.textContent   = txn.value;
+      hoursVal.textContent = `${dailyHours} hrs`;
+      rateVal.textContent  = `KSh ${hourlyRate}`;
+
+      monthlyHoursEl.textContent = monthlyHours;
+      monthlyValueEl.textContent = `KSh ${monthlyValue.toLocaleString()}`;
+      savedHoursEl.textContent   = `~${savedHours} hrs/month`;
+      roiEl.textContent          = `${roi}×`;
+    }
+
+    [txn, hours, rate].forEach(el => el.addEventListener('input', update));
+    update();
+  })();
 </script>
 
 </body>
