@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biashara AI — Your business co-pilot, on WhatsApp</title>
+<meta name="description" content="Biashara AI logs your sales, tracks expenses, and sends you reports — all on WhatsApp. Built for Kenyan SMEs by Graphilo Ltd.">
+  <link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1A1A1A;
+    --paper:#FFF8EC;
+    --green-deep:#0B3D2E;
+    --green-leaf:#2EAA6E;
+    --orange:#F4A340;
+    --paper-dim:#F0E9D8;
+    --line:rgba(11,61,46,0.14);
+    --maxw:1120px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.disp{font-family:'Space Grotesk',sans-serif;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  a{color:inherit;text-decoration:none;}
+  img,svg{display:block;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px;}
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(255,248,236,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:72px;
+  }
+  .brand{display:flex; align-items:center; gap:10px; font-weight:700; font-size:1.05rem; letter-spacing:-0.01em;}
+  .brand .dot{width:10px; height:10px; border-radius:50%; background:var(--green-leaf); box-shadow:0 0 0 4px rgba(46,170,110,0.18);}
+  .navlinks{display:flex; gap:32px; font-size:.92rem; font-weight:500; color:var(--green-deep);}
+  .navlinks a{opacity:.75; transition:opacity .2s;}
+  .navlinks a:hover{opacity:1;}
+  .nav-cta{
+    background:var(--green-deep); color:var(--paper);
+    padding:10px 20px; border-radius:100px; font-weight:600; font-size:.88rem;
+    transition:transform .2s ease, background .2s ease;
+  }
+  .nav-cta:hover{background:#0e4d39; transform:translateY(-1px);}
+  @media (max-width:760px){ .navlinks{display:none;} }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:88px 0 64px;
+    position:relative;
+  }
+  .hero .wrap{
+    display:grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap:56px;
+    align-items:center;
+  }
+  @media (max-width:900px){
+    .hero .wrap{grid-template-columns:1fr; gap:48px;}
+    .hero{padding:48px 0 40px;}
+  }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:.78rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--green-deep);
+    background:var(--paper-dim);
+    border:1px solid var(--line);
+    padding:7px 14px; border-radius:100px;
+    margin-bottom:24px;
+  }
+  .eyebrow .flag{font-size:.9em;}
+  h1.headline{
+    font-size:clamp(2.4rem, 4.6vw, 3.6rem);
+    line-height:1.04;
+    font-weight:700;
+    letter-spacing:-0.02em;
+    margin-bottom:22px;
+  }
+  h1.headline .accent{
+    color:var(--green-leaf);
+    position:relative;
+  }
+  .sub{
+    font-size:1.15rem; line-height:1.55;
+    color:#3a3a3a;
+    max-width:480px;
+    margin-bottom:34px;
+  }
+  .sub strong{color:var(--ink); font-weight:600;}
+  .cta-row{display:flex; gap:14px; flex-wrap:wrap; margin-bottom:28px;}
+  .btn-primary{
+    background:var(--green-deep); color:var(--paper);
+    padding:15px 28px; border-radius:100px;
+    font-weight:600; font-size:.98rem;
+    display:inline-flex; align-items:center; gap:10px;
+    transition:transform .2s ease, box-shadow .2s ease;
+    box-shadow:0 1px 0 rgba(0,0,0,0.05);
+  }
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 10px 24px -8px rgba(11,61,46,0.45);}
+  .btn-secondary{
+    border:1.5px solid var(--green-deep);
+    color:var(--green-deep);
+    padding:15px 26px; border-radius:100px;
+    font-weight:600; font-size:.98rem;
+    transition:background .2s ease;
+  }
+  .btn-secondary:hover{background:var(--paper-dim);}
+  .trust-row{display:flex; align-items:center; gap:10px; font-size:.85rem; color:#5b5b5b;}
+  .trust-row .stack img{width:30px;height:30px;border-radius:50%;border:2px solid var(--paper); margin-left:-8px;}
+  .trust-row .stack{display:flex; margin-right:4px;}
+
+  /* ---------- PHONE MOCK ---------- */
+  .phone-stage{position:relative; display:flex; justify-content:center;}
+  .phone{
+    width:300px; background:#0B0B0B; border-radius:38px; padding:12px;
+    box-shadow:0 40px 80px -30px rgba(11,61,46,0.5), 0 4px 24px rgba(0,0,0,0.15);
+    transform:rotate(2deg);
+  }
+  .phone-screen{
+    background:#E5DDC8;
+    border-radius:28px;
+    overflow:hidden;
+    height:560px;
+    display:flex; flex-direction:column;
+    position:relative;
+  }
+  .chat-header{
+    background:var(--green-deep); color:#fff;
+    padding:16px 16px 14px; display:flex; align-items:center; gap:10px;
+    font-size:.82rem;
+  }
+  .chat-header .avatar{
+    width:34px; height:34px; border-radius:50%; background:var(--green-leaf);
+    display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.85rem; color:#fff;
+  }
+  .chat-header .name{font-weight:600; font-size:.88rem;}
+  .chat-header .status{opacity:.7; font-size:.7rem;}
+  .chat-body{
+    flex:1; padding:16px 12px; display:flex; flex-direction:column; gap:10px;
+    overflow-y:auto;
+  }
+  .chat-body::-webkit-scrollbar{width:0;}
+  .bubble{
+    max-width:84%; padding:9px 13px; border-radius:14px; font-size:.78rem; line-height:1.42;
+    opacity:0; animation:rise .5s ease forwards;
+  }
+  .bubble.in{
+    background:#fff; align-self:flex-start; border-bottom-left-radius:4px;
+    box-shadow:0 1px 1px rgba(0,0,0,0.06);
+  }
+  .bubble.out{
+    background:#DCF3D3; align-self:flex-end; border-bottom-right-radius:4px;
+  }
+  .bubble b{font-weight:700;}
+  .bubble .tag{display:block; font-size:.66rem; color:var(--green-leaf); font-weight:700; margin-bottom:3px;}
+  @keyframes rise{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
+  .b1{animation-delay:.2s;} .b2{animation-delay:1s;} .b3{animation-delay:1.9s;} .b4{animation-delay:2.7s;}
+
+  .chat-input-row{
+    display:flex; align-items:center; gap:8px;
+    padding:10px 12px; background:#DCD5BE;
+    border-top:1px solid rgba(0,0,0,0.06);
+  }
+  .chat-input{
+    flex:1; border:none; outline:none; border-radius:20px;
+    padding:9px 14px; font-size:.78rem; font-family:'Inter',sans-serif;
+    background:#fff; color:var(--ink);
+  }
+  .chat-input::placeholder{color:#999;}
+  .chat-send{
+    width:32px; height:32px; border-radius:50%; border:none;
+    background:var(--green-leaf); color:#fff; font-size:.85rem;
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    transition:transform .15s ease, background .15s ease;
+    flex-shrink:0;
+  }
+  .chat-send:hover{background:var(--green-deep); transform:scale(1.06);}
+  .chat-send:active{transform:scale(0.94);}
+  .typing-dots{display:inline-flex; gap:3px; padding:2px 0;}
+  .typing-dots span{
+    width:5px; height:5px; border-radius:50%; background:#999;
+    animation:bounce 1.2s infinite ease-in-out;
+  }
+  .typing-dots span:nth-child(2){animation-delay:.15s;}
+  .typing-dots span:nth-child(3){animation-delay:.3s;}
+  @keyframes bounce{ 0%,80%,100%{transform:translateY(0); opacity:.4;} 40%{transform:translateY(-3px); opacity:1;} }
+
+  .receipt-float{
+    position:absolute; right:-26px; bottom:46px;
+    background:#fff; border-radius:10px; padding:14px 16px;
+    box-shadow:0 20px 40px -16px rgba(0,0,0,0.25);
+    width:178px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:.66rem; color:#222;
+    transform:rotate(-4deg);
+  }
+  .receipt-float::before, .receipt-float::after{
+    content:""; position:absolute; left:0; right:0; height:8px;
+    background:
+      linear-gradient(135deg, transparent 50%, #fff 50%) 0 0/8px 8px repeat-x,
+      linear-gradient(45deg, transparent 50%, #fff 50%) 0 0/8px 8px repeat-x;
+    background-color:var(--paper);
+  }
+  .receipt-float::before{top:-8px;}
+  .receipt-float::after{bottom:-8px; transform:rotate(180deg);}
+  .receipt-float .rt{font-weight:700; margin-bottom:6px; color:var(--green-deep); letter-spacing:.02em;}
+  .receipt-float .rline{display:flex; justify-content:space-between; padding:2px 0; color:#555;}
+  .receipt-float .rtotal{border-top:1px dashed #ccc; margin-top:6px; padding-top:6px; display:flex; justify-content:space-between; font-weight:700; color:var(--green-leaf);}
+  @media (max-width:900px){ .receipt-float{display:none;} }
+  @media (max-width:420px){ .phone{width:88vw;} }
+
+  /* ---------- TICKER ---------- */
+  .ticker-wrap{
+    background:var(--green-deep); color:var(--paper);
+    padding:14px 0; overflow:hidden; white-space:nowrap;
+    border-top:1px solid rgba(255,255,255,0.08);
+    border-bottom:1px solid rgba(255,255,255,0.08);
+  }
+  .ticker{display:inline-flex; gap:48px; animation:scroll 24s linear infinite;}
+  .ticker span{font-family:'JetBrains Mono',monospace; font-size:.82rem; opacity:.85; display:inline-flex; gap:10px; align-items:center;}
+  .ticker span b{color:var(--orange); font-weight:600;}
+  @keyframes scroll{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
+
+  /* ---------- SECTION GENERIC ---------- */
+  section{padding:96px 0;}
+  .section-head{max-width:640px; margin-bottom:56px;}
+  .kicker{
+    font-size:.78rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--green-leaf); margin-bottom:14px;
+  }
+  h2.section-title{
+    font-size:clamp(1.8rem, 3vw, 2.5rem); font-weight:700; letter-spacing:-0.015em; line-height:1.12;
+    margin-bottom:16px;
+  }
+  .section-desc{font-size:1.05rem; color:#4a4a4a; line-height:1.6;}
+
+  /* ---------- PROBLEM ---------- */
+  .problem-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:24px;
+  }
+  @media (max-width:860px){ .problem-grid{grid-template-columns:1fr;} }
+  .problem-card{
+    background:#fff; border:1px solid var(--line); border-radius:18px;
+    padding:30px 26px;
+  }
+  .problem-card .num{
+    font-family:'JetBrains Mono',monospace; font-size:.78rem; color:var(--orange); font-weight:600;
+    margin-bottom:18px; display:block;
+  }
+  .problem-card h3{font-size:1.18rem; margin-bottom:10px; font-weight:600;}
+  .problem-card p{font-size:.93rem; color:#5b5b5b; line-height:1.55;}
+
+  /* ---------- FEATURES ---------- */
+  .features{background:var(--green-deep); color:var(--paper);}
+  .features .kicker{color:var(--orange);}
+  .features .section-desc{color:rgba(255,248,236,0.72);}
+  .feature-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+    background:rgba(255,255,255,0.1);
+    border-radius:20px; overflow:hidden;
+    margin-top:8px;
+  }
+  @media (max-width:860px){ .feature-grid{grid-template-columns:1fr;} }
+  .feature-cell{
+    background:#0E4934; padding:36px 30px;
+  }
+  .feature-cell .icon{
+    width:44px; height:44px; border-radius:12px;
+    background:rgba(255,255,255,0.08);
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:20px;
+    font-size:1.2rem;
+  }
+  .feature-cell h3{font-size:1.1rem; margin-bottom:10px; font-weight:600;}
+  .feature-cell p{font-size:.9rem; color:rgba(255,248,236,0.68); line-height:1.55;}
+  .feature-cell ul{margin-top:14px; padding-left:0; list-style:none;}
+  .feature-cell li{font-size:.83rem; color:rgba(255,248,236,0.8); padding:5px 0 5px 20px; position:relative;}
+  .feature-cell li::before{content:"→"; position:absolute; left:0; color:var(--orange);}
+
+  /* ---------- HOW IT WORKS ---------- */
+  .steps{display:flex; flex-direction:column; gap:0; max-width:680px;}
+  .step{
+    display:grid; grid-template-columns:64px 1fr; gap:24px;
+    padding:28px 0; border-bottom:1px solid var(--line);
+  }
+  .step:last-child{border-bottom:none;}
+  .step .stepnum{
+    font-family:'Space Grotesk',sans-serif; font-size:1.6rem; font-weight:700;
+    color:var(--orange);
+  }
+  .step h3{font-size:1.15rem; font-weight:600; margin-bottom:6px;}
+  .step p{color:#555; font-size:.95rem; line-height:1.5;}
+  .step .ex{
+    margin-top:10px; display:inline-block;
+    background:var(--paper-dim); border:1px solid var(--line); border-radius:8px;
+    padding:6px 12px; font-family:'JetBrains Mono',monospace; font-size:.78rem; color:var(--green-deep);
+  }
+
+  /* ---------- PRICING ---------- */
+  .pricing-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:24px;
+  }
+  @media (max-width:860px){ .pricing-grid{grid-template-columns:1fr;} }
+  .price-card{
+    border:1.5px solid var(--line); border-radius:20px;
+    padding:34px 28px; background:#fff;
+    display:flex; flex-direction:column;
+  }
+  .price-card.featured{
+    border-color:var(--green-deep);
+    box-shadow:0 24px 48px -24px rgba(11,61,46,0.35);
+    position:relative;
+  }
+  .price-card.featured::before{
+    content:"Most popular";
+    position:absolute; top:-13px; left:28px;
+    background:var(--orange); color:#1A1A1A;
+    font-size:.72rem; font-weight:700; padding:4px 12px; border-radius:100px;
+  }
+  .price-card h3{font-size:1.05rem; font-weight:600; margin-bottom:6px;}
+  .price-card .price{font-family:'Space Grotesk',sans-serif; font-size:2.1rem; font-weight:700; margin:14px 0 4px;}
+  .price-card .price span{font-size:.95rem; font-weight:500; color:#777;}
+  .price-card .for{font-size:.82rem; color:#888; margin-bottom:22px;}
+  .price-card ul{list-style:none; flex:1; margin-bottom:24px;}
+  .price-card li{
+    font-size:.88rem; padding:9px 0; border-top:1px solid var(--line); color:#444;
+    display:flex; gap:10px;
+  }
+  .price-card li:first-child{border-top:none;}
+  .price-card li::before{content:"✓"; color:var(--green-leaf); font-weight:700;}
+  .price-card .btn-tier{
+    text-align:center; padding:13px; border-radius:100px; font-weight:600; font-size:.9rem;
+    border:1.5px solid var(--green-deep); color:var(--green-deep);
+  }
+  .price-card.featured .btn-tier{background:var(--green-deep); color:#fff;}
+
+  /* ---------- CALCULATOR ---------- */
+  .calc-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:40px;
+    background:#fff; border:1px solid var(--line); border-radius:24px;
+    padding:44px; align-items:center;
+  }
+  @media (max-width:860px){ .calc-grid{grid-template-columns:1fr; padding:28px;} }
+  .calc-field{margin-bottom:30px;}
+  .calc-field:last-child{margin-bottom:0;}
+  .calc-label{
+    display:flex; justify-content:space-between; align-items:baseline;
+    font-size:.92rem; font-weight:500; color:#3a3a3a; margin-bottom:12px;
+  }
+  .calc-value{
+    font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--green-deep);
+    background:var(--paper-dim); padding:3px 10px; border-radius:8px; font-size:.85rem;
+  }
+  .calc-slider{
+    width:100%; height:6px; border-radius:10px;
+    background:var(--paper-dim); outline:none; -webkit-appearance:none; appearance:none;
+  }
+  .calc-slider::-webkit-slider-thumb{
+    -webkit-appearance:none; appearance:none;
+    width:22px; height:22px; border-radius:50%;
+    background:var(--green-leaf); border:3px solid #fff;
+    box-shadow:0 2px 8px rgba(11,61,46,0.35); cursor:pointer;
+  }
+  .calc-slider::-moz-range-thumb{
+    width:22px; height:22px; border-radius:50%; border:3px solid #fff;
+    background:var(--green-leaf); box-shadow:0 2px 8px rgba(11,61,46,0.35); cursor:pointer;
+  }
+  .calc-output{
+    background:var(--green-deep); border-radius:18px; padding:32px;
+    color:var(--paper);
+  }
+  .calc-result-row{display:flex; gap:24px; margin-bottom:22px;}
+  .calc-stat{flex:1;}
+  .calc-stat-num{
+    font-family:'Space Grotesk',sans-serif; font-size:1.9rem; font-weight:700;
+  }
+  .calc-stat-num.accent{color:var(--orange);}
+  .calc-stat-label{font-size:.8rem; color:rgba(255,248,236,0.68); margin-top:2px;}
+  .calc-divider{height:1px; background:rgba(255,255,255,0.14); margin-bottom:22px;}
+  .calc-savings-label{font-size:.82rem; color:rgba(255,248,236,0.75); margin-bottom:6px;}
+  .calc-savings-num{
+    font-family:'Space Grotesk',sans-serif; font-size:2.3rem; font-weight:700;
+    color:var(--green-leaf); margin-bottom:8px;
+  }
+  .calc-savings-sub{font-size:.85rem; color:rgba(255,248,236,0.78); line-height:1.5; margin-bottom:24px;}
+  .calc-savings-sub b{color:#fff;}
+  .calc-cta{width:100%; justify-content:center; background:var(--orange); color:#1A1A1A;}
+  .calc-cta:hover{background:#ffb55c; box-shadow:0 10px 24px -8px rgba(0,0,0,0.3);}
+
+  /* ---------- CTA BAND ---------- */
+  .cta-band{
+    background:var(--orange);
+    border-radius:28px;
+    margin:0 28px;
+    padding:64px 48px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  @media (max-width:760px){ .cta-band{padding:48px 24px; margin:0 16px;} }
+  .cta-band h2{
+    font-size:clamp(1.7rem, 3.4vw, 2.4rem); font-weight:700; letter-spacing:-0.02em; color:#1A1A1A;
+    margin-bottom:14px;
+  }
+  .cta-band p{font-size:1.05rem; color:#2a2a2a; margin-bottom:30px; max-width:520px; margin-left:auto; margin-right:auto;}
+  .cta-band .btn-primary{background:#1A1A1A;}
+  .cta-band .btn-primary:hover{background:#000;}
+
+  /* ---------- FOOTER ---------- */
+  footer{padding:64px 0 40px;}
+  .footer-grid{
+    display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:32px;
+    padding-bottom:32px; border-bottom:1px solid var(--line); margin-bottom:24px;
+  }
+  .footer-brand .brand{margin-bottom:10px;}
+  .footer-brand p{font-size:.85rem; color:#777; max-width:280px; line-height:1.5;}
+  .footer-links{display:flex; gap:48px;}
+  .footer-col h4{font-size:.78rem; text-transform:uppercase; letter-spacing:.06em; color:#999; margin-bottom:14px;}
+  .footer-col a{display:block; font-size:.88rem; color:var(--ink); opacity:.78; margin-bottom:10px;}
+  .footer-bottom{display:flex; justify-content:space-between; font-size:.8rem; color:#999; flex-wrap:wrap; gap:10px;}
+
+  .reveal{opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease;}
+  .reveal.show{opacity:1; transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand"><span class="dot"></span>Biashara AI</div>
+    <div class="navlinks">
+      <a href="#problem">Why it matters</a>
+      <a href="#features">What it does</a>
+      <a href="#how">How it works</a>
+      <a href="#calculator">Your savings</a>
+      <a href="#pricing">Pricing</a>
+    </div>
+    <a class="nav-cta" href="#cta">Get early access</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow"><span class="flag">🇰🇪</span> Built in Nairobi, for Kenyan SMEs</div>
+      <h1 class="headline">Your duka's <span class="accent">bookkeeper</span>, living inside WhatsApp.</h1>
+      <p class="sub">No app. No spreadsheet. No accountant fees. Just text — or send a voice note — the way you already talk to customers, and watch your books write themselves.</p>
+      <div class="cta-row">
+        <a class="btn-primary" href="#cta">Join the pilot →</a>
+        <a class="btn-secondary" href="#how">See how it works</a>
+      </div>
+    </div>
+
+    <div class="phone-stage">
+      <div class="phone">
+        <div class="phone-screen">
+          <div class="chat-header">
+            <div class="avatar">B</div>
+            <div>
+              <div class="name">Biashara AI</div>
+              <div class="status">online</div>
+            </div>
+          </div>
+          <div class="chat-body" id="simChatBody">
+            <div class="bubble in b1"><span class="tag">👋 KARIBU</span>Type a sale below — try "Niliuza unga 2 bags @ 300" or your own.</div>
+          </div>
+          <div class="chat-input-row">
+            <input type="text" id="simInput" class="chat-input" placeholder="Niliuza sukari 1kg @ 180" maxlength="60">
+            <button id="simSend" class="chat-send" aria-label="Send">➤</button>
+          </div>
+        </div>
+      </div>
+      <div class="receipt-float">
+        <div class="rt">BIASHARA AI · RECEIPT</div>
+        <div class="rline"><span>Unga 2 bags</span><span>600</span></div>
+        <div class="rline"><span>Sukari 1kg</span><span>180</span></div>
+        <div class="rline"><span>M-Pesa in</span><span>3,470</span></div>
+        <div class="rtotal"><span>TOTAL</span><span>KSh 4,250</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="ticker-wrap">
+  <div class="ticker mono">
+    <span>✓ Logs sales in <b>Swahili & English</b></span>
+    <span>✓ Bookkeeping by <b>voice note</b></span>
+    <span>✓ Reconciles <b>M-Pesa</b> automatically</span>
+    <span>✓ Sends <b>weekly & monthly reports</b></span>
+    <span>✓ Exports to <b>Excel, PDF, Word & PowerPoint</b></span>
+    <span>✓ Pay by <b>M-Pesa</b>, cancel anytime</span>
+    <span>✓ Zero app to download</span>
+    <span>✓ Logs sales in <b>Swahili & English</b></span>
+    <span>✓ Bookkeeping by <b>voice note</b></span>
+    <span>✓ Reconciles <b>M-Pesa</b> automatically</span>
+    <span>✓ Sends <b>weekly & monthly reports</b></span>
+    <span>✓ Exports to <b>Excel, PDF, Word & PowerPoint</b></span>
+    <span>✓ Pay by <b>M-Pesa</b>, cancel anytime</span>
+    <span>✓ Zero app to download</span>
+  </div>
+</div>
+
+<section id="problem">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="kicker">The problem</div>
+      <h2 class="section-title">7.4 million Kenyan SMEs, running on memory and goodwill.</h2>
+      <p class="section-desc">Most business owners aren't bad with money — they're just not given tools built for how they actually work.</p>
+    </div>
+    <div class="problem-grid">
+      <div class="problem-card reveal">
+        <span class="num">01 — INVISIBLE</span>
+        <h3>No real financial picture</h3>
+        <p>Cash books are inconsistent, M-Pesa statements unreconciled, and there's no warning before a cash crunch hits.</p>
+      </div>
+      <div class="problem-card reveal">
+        <span class="num">02 — OVERLOADED</span>
+        <h3>Hours lost to repeat questions</h3>
+        <p>Price checks, order confirmations, payment follow-ups — answered one by one, all day, by hand.</p>
+      </div>
+      <div class="problem-card reveal">
+        <span class="num">03 — DATA-BLIND</span>
+        <h3>Stocking by gut feeling</h3>
+        <p>No clarity on what actually sells, who the best customers are, or when demand peaks — so money sits in the wrong stock.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="features" class="features">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="kicker">What it does</div>
+      <h2 class="section-title">One WhatsApp thread. Three jobs handled.</h2>
+      <p class="section-desc">Biashara AI works the way your business already does — through chat, not dashboards.</p>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-cell reveal">
+        <div class="icon">📒</div>
+        <h3>Automated bookkeeping</h3>
+        <p>Text a sale, send a voice note, forward an M-Pesa SMS, or snap a receipt — it's logged instantly.</p>
+        <ul>
+          <li>Voice note bookkeeping</li>
+          <li>Weekly & monthly summaries</li>
+          <li>Cash flow alerts before you run dry</li>
+          <li>Plain-language P&L, no jargon</li>
+        </ul>
+      </div>
+      <div class="feature-cell reveal">
+        <div class="icon">💬</div>
+        <h3>Customer service, handled</h3>
+        <p>Routine questions get answered before your customer even notices you were busy.</p>
+        <ul>
+          <li>Price & availability replies</li>
+          <li>Payment reminders, your tone</li>
+          <li>Escalates the tricky ones to you</li>
+        </ul>
+      </div>
+      <div class="feature-cell reveal">
+        <div class="icon">📈</div>
+        <h3>Reports you can actually use</h3>
+        <p>Get your numbers as real files, not just chat text — ready to share, print, or file away.</p>
+        <ul>
+          <li>Excel, PDF, Word & PowerPoint exports</li>
+          <li>Top-selling items, ranked</li>
+          <li>Smart restock suggestions</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="kicker">How it works</div>
+      <h2 class="section-title">Three steps. Zero training required.</h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="stepnum">01</div>
+        <div>
+          <h3>Save the number, say hello</h3>
+          <p>Add Biashara AI to WhatsApp and send your business name. That's the entire setup.</p>
+        </div>
+      </div>
+      <div class="step reveal">
+        <div class="stepnum">02</div>
+        <div>
+          <h3>Talk to it like a shop assistant</h3>
+          <p>Type naturally, in Swahili, English, or both — or just send a voice note — exactly how you'd brief a member of staff.</p>
+          <span class="ex">"Nililipia rent 5000"</span>
+        </div>
+      </div>
+      <div class="step reveal">
+        <div class="stepnum">03</div>
+        <div>
+          <h3>Get the numbers, not the busywork</h3>
+          <p>Reports, alerts, and customer replies arrive on their own — as real Excel, PDF, Word or PowerPoint files if you need them, no app to open.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="calculator">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="kicker">See your numbers</div>
+      <h2 class="section-title">How much time and money are you really losing?</h2>
+      <p class="section-desc">Move the sliders to match your business — the estimate updates instantly.</p>
+    </div>
+
+    <div class="calc-grid reveal">
+      <div class="calc-inputs">
+        <div class="calc-field">
+          <div class="calc-label">
+            <span>Sales transactions per day</span>
+            <span class="calc-value" id="calcTxnVal">25</span>
+          </div>
+          <input type="range" id="calcTxn" min="5" max="150" value="25" step="5" class="calc-slider">
+        </div>
+
+        <div class="calc-field">
+          <div class="calc-label">
+            <span>Hours spent on bookkeeping & messages per day</span>
+            <span class="calc-value" id="calcHoursVal">2 hrs</span>
+          </div>
+          <input type="range" id="calcHours" min="0.5" max="6" value="2" step="0.5" class="calc-slider">
+        </div>
+
+        <div class="calc-field">
+          <div class="calc-label">
+            <span>What's an hour of your time worth?</span>
+            <span class="calc-value" id="calcRateVal">KSh 300</span>
+          </div>
+          <input type="range" id="calcRate" min="100" max="1000" value="300" step="50" class="calc-slider">
+        </div>
+      </div>
+
+      <div class="calc-output">
+        <div class="calc-result-row">
+          <div class="calc-stat">
+            <div class="calc-stat-num" id="calcMonthlyHours">60</div>
+            <div class="calc-stat-label">hours/month on admin</div>
+          </div>
+          <div class="calc-stat">
+            <div class="calc-stat-num accent" id="calcMonthlyValue">KSh 18,000</div>
+            <div class="calc-stat-label">worth of your time</div>
+          </div>
+        </div>
+        <div class="calc-divider"></div>
+        <div class="calc-savings">
+          <div class="calc-savings-label">Estimated time back with Biashara AI</div>
+          <div class="calc-savings-num" id="calcSavedHours">~48 hrs/month</div>
+          <div class="calc-savings-sub">at just <b>KSh 999/month</b> — that's <span id="calcROI">18×</span> your subscription cost back in time saved</div>
+        </div>
+        <a class="btn-primary calc-cta" href="#cta">Claim those hours back →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="kicker">Pricing</div>
+      <h2 class="section-title">Less than an hour of an accountant's time.</h2>
+      <p class="section-desc">Pay monthly via M-Pesa — just reply "UPGRADE" in the chat. Cancel anytime, no contracts, no fine print.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card reveal">
+        <h3>Free</h3>
+        <div class="price">KSh 0</div>
+        <div class="for">For new businesses getting started</div>
+        <ul>
+          <li>50 messages / month (text or voice)</li>
+          <li>Daily, weekly & monthly reports</li>
+          <li>1 month transaction history</li>
+        </ul>
+        <a class="btn-tier" href="#cta">Start free</a>
+      </div>
+      <div class="price-card featured reveal">
+        <h3>Starter</h3>
+        <div class="price">KSh 999<span>/mo</span></div>
+        <div class="for">For dukas, salons & service SMEs</div>
+        <ul>
+          <li>Unlimited text & voice note logging</li>
+          <li>M-Pesa auto-reconciliation</li>
+          <li>3 months transaction history</li>
+          <li>Customer service bot</li>
+        </ul>
+        <a class="btn-tier" href="#cta">Join the pilot</a>
+      </div>
+      <div class="price-card reveal">
+        <h3>Pro</h3>
+        <div class="price">KSh 2,499<span>/mo</span></div>
+        <div class="for">For growing SMEs & distributors</div>
+        <ul>
+          <li>Everything in Starter</li>
+          <li>Excel, PDF, Word & PowerPoint exports</li>
+          <li>Sales intelligence & restocking</li>
+          <li>Multi-user access for staff</li>
+          <li>Full history & priority support</li>
+        </ul>
+        <a class="btn-tier" href="#cta">Join the pilot</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cta">
+  <div class="cta-band reveal">
+    <h2>Be one of our first 10 pilot businesses.</h2>
+    <p>We're onboarding a small group of Nairobi SMEs free of charge while we fine-tune the bot. Your feedback shapes what we build next.</p>
+    <a class="btn-primary" href="https://wa.me/254703532343?text=Nataka%20kujiunga%20na%20Biashara%20AI" target="_blank" rel="noopener">Message us on WhatsApp →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="brand"><span class="dot"></span>Biashara AI</div>
+        <p>An AI business co-pilot for Kenyan SMEs, built by Graphilo Ltd. Nairobi, Kenya.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Product</h4>
+          <a href="#features">Features</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#how">How it works</a>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="mailto:hello@biashara.ai">hello@biashara.ai</a>
+          <a href="https://wa.me/254703532343" target="_blank" rel="noopener">WhatsApp us</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Graphilo Ltd, trading as Biashara AI.</span>
+      <span>Nairobi, Kenya 🇰🇪</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const els = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('show'); } });
+  }, {threshold:0.12});
+  els.forEach(el=>obs.observe(el));
+
+  /* ---------- INTERACTIVE CHAT SIMULATOR ---------- */
+  (function(){
+    const body  = document.getElementById('simChatBody');
+    const input = document.getElementById('simInput');
+    const send  = document.getElementById('simSend');
+    if (!body || !input || !send) return;
+
+    const ITEM_PRICES = {
+      'unga':300,'sukari':180,'mafuta':350,'mchele':220,'maharagwe':150,
+      'mandazi':20,'soda':60,'maziwa':60,'mkate':60,'chai':50
+    };
+
+    function scrollToBottom(){ body.scrollTop = body.scrollHeight; }
+
+    function addBubble(html, type){
+      const div = document.createElement('div');
+      div.className = `bubble ${type}`;
+      div.style.animation = 'rise .35s ease forwards';
+      div.innerHTML = html;
+      body.appendChild(div);
+      scrollToBottom();
+      return div;
+    }
+
+    function showTyping(){
+      const div = document.createElement('div');
+      div.className = 'bubble in';
+      div.id = 'typingBubble';
+      div.innerHTML = '<span class="typing-dots"><span></span><span></span><span></span></span>';
+      body.appendChild(div);
+      scrollToBottom();
+    }
+    function removeTyping(){
+      const t = document.getElementById('typingBubble');
+      if (t) t.remove();
+    }
+
+    function parseAndRespond(text){
+      const lower = text.toLowerCase();
+
+      // try to find "item N @ price" or "item @ price" pattern
+      const atMatch = lower.match(/([a-z\s]+?)\s*(\d+)?\s*(?:bags?|kg|pcs|pieces)?\s*@\s*(\d+)/);
+      let item, qty, price, total;
+
+      if (atMatch) {
+        item  = atMatch[1].trim().split(' ').pop() || 'bidhaa';
+        qty   = atMatch[2] ? parseInt(atMatch[2]) : 1;
+        price = parseInt(atMatch[3]);
+        total = qty * price;
+      } else {
+        // fallback: look for known item name + any number
+        const foundItem = Object.keys(ITEM_PRICES).find(k => lower.includes(k));
+        const numMatch = lower.match(/(\d+)/);
+        if (foundItem) {
+          item  = foundItem;
+          qty   = numMatch ? parseInt(numMatch[1]) : 1;
+          price = ITEM_PRICES[foundItem];
+          total = qty * price;
+        } else if (lower.includes('ripoti') || lower.includes('report')) {
+          return { type:'report' };
+        } else {
+          return { type:'unknown' };
+        }
+      }
+      return { type:'sale', item, qty, price, total };
+    }
+
+    function handleSend(){
+      const text = input.value.trim();
+      if (!text) return;
+
+      addBubble(text.replace(/</g,'&lt;'), 'out');
+      input.value = '';
+      showTyping();
+
+      setTimeout(() => {
+        removeTyping();
+        const result = parseAndRespond(text);
+
+        if (result.type === 'sale') {
+          const itemLabel = result.item.charAt(0).toUpperCase() + result.item.slice(1);
+          addBubble(
+            `<span class="tag">✅ IMEREKODIWA</span>${itemLabel} ${result.qty} × KSh ${result.price.toLocaleString()} = <b>KSh ${result.total.toLocaleString()}</b><br>Pesa imeingia kwenye hesabu yako 👍`,
+            'in'
+          );
+        } else if (result.type === 'report') {
+          addBubble(
+            `<span class="tag">📊 RIPOTI YA LEO</span>Mauzo: <b>KSh 4,250</b><br>Faida: <b>KSh 1,180</b><br>Bidhaa bora: Unga, Sukari`,
+            'in'
+          );
+        } else {
+          addBubble(
+            `Sawa! Try something like <i>"Niliuza sukari 1kg @ 180"</i> or type "ripoti ya leo" 📝`,
+            'in'
+          );
+        }
+      }, 700 + Math.random()*500);
+    }
+
+    send.addEventListener('click', handleSend);
+    input.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSend(); });
+  })();
+
+  /* ---------- SAVINGS CALCULATOR ---------- */
+  (function(){
+    const txn   = document.getElementById('calcTxn');
+    const hours = document.getElementById('calcHours');
+    const rate  = document.getElementById('calcRate');
+    if (!txn || !hours || !rate) return;
+
+    const txnVal    = document.getElementById('calcTxnVal');
+    const hoursVal  = document.getElementById('calcHoursVal');
+    const rateVal   = document.getElementById('calcRateVal');
+    const monthlyHoursEl = document.getElementById('calcMonthlyHours');
+    const monthlyValueEl = document.getElementById('calcMonthlyValue');
+    const savedHoursEl   = document.getElementById('calcSavedHours');
+    const roiEl           = document.getElementById('calcROI');
+
+    const SUBSCRIPTION = 999;
+    const TIME_RECOVERY_RATE = 0.8; // Biashara AI removes ~80% of manual admin time
+
+    function update(){
+      const dailyHours = parseFloat(hours.value);
+      const hourlyRate = parseInt(rate.value);
+
+      const monthlyHours = Math.round(dailyHours * 30);
+      const monthlyValue = Math.round(monthlyHours * hourlyRate);
+      const savedHours   = Math.round(monthlyHours * TIME_RECOVERY_RATE);
+      const savedValue   = Math.round(savedHours * hourlyRate);
+      const roi          = Math.max(1, Math.round(savedValue / SUBSCRIPTION));
+
+      txnVal.textContent   = txn.value;
+      hoursVal.textContent = `${dailyHours} hrs`;
+      rateVal.textContent  = `KSh ${hourlyRate}`;
+
+      monthlyHoursEl.textContent = monthlyHours;
+      monthlyValueEl.textContent = `KSh ${monthlyValue.toLocaleString()}`;
+      savedHoursEl.textContent   = `~${savedHours} hrs/month`;
+      roiEl.textContent          = `${roi}×`;
+    }
+
+    [txn, hours, rate].forEach(el => el.addEventListener('input', update));
+    update();
+  })();
+</script>
+
+</body>
+</html>
