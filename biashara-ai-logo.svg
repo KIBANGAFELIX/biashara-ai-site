@@ -1,0 +1,21 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background: rounded square, deep green -->
+  <rect width="512" height="512" rx="112" fill="#0B3D2E"/>
+
+  <!-- Subtle inner highlight -->
+  <rect x="0" y="0" width="512" height="512" rx="112" fill="url(#grad)" opacity="0.5"/>
+  <defs>
+    <linearGradient id="grad" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0E4934"/>
+      <stop offset="1" stop-color="#0B3D2E"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Bold "B" letterform, cream -->
+  <text x="182" y="368" font-family="Georgia, 'Times New Roman', serif" font-weight="700"
+        font-size="330" fill="#FFF8EC" text-anchor="middle">B</text>
+
+  <!-- Leaf-green accent dot, echoing the nav bar's brand dot -->
+  <circle cx="382" cy="150" r="34" fill="#2EAA6E"/>
+  <circle cx="382" cy="150" r="34" fill="none" stroke="#0B3D2E" stroke-width="10"/>
+</svg>
