@@ -320,22 +320,10 @@
     padding:6px 12px; font-family:'JetBrains Mono',monospace; font-size:.78rem; color:var(--green-deep);
   }
 
-  /* ---------- CHAMAS ---------- */
-  .chama .chama-card{
-    display:grid; grid-template-columns:1.1fr 0.9fr; gap:40px; align-items:start;
-    background:#fff; border:1.5px solid var(--line); border-radius:20px; padding:36px 32px;
-  }
-  @media (max-width:860px){ .chama .chama-card{grid-template-columns:1fr; gap:24px; padding:28px 22px;} }
-  .chama .chama-card p{color:#444; line-height:1.6;}
-  .chama .chama-card ul{list-style:none; padding:0;}
-  .chama .chama-card li{padding:10px 0; border-top:1px solid var(--line); display:flex; gap:10px; font-size:.95rem;}
-  .chama .chama-card li:first-child{border-top:none;}
-  .chama .chama-card li::before{content:"✓"; color:var(--green-leaf); font-weight:700;}
-  .chama .note{margin-top:18px; font-size:.85rem; color:#777; font-style:italic;}
 
   /* ---------- PRICING ---------- */
   .pricing-grid{
-    display:grid; grid-template-columns:repeat(3,1fr); gap:20px;
+    display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; max-width:880px; margin:0 auto;
   }
   @media (max-width:1100px){ .pricing-grid{grid-template-columns:repeat(2,1fr);} }
   .trial-band{
@@ -477,7 +465,6 @@
       <a href="#features">What it does</a>
       <a href="#how">How it works</a>
       <a href="#calculator">Your savings</a>
-      <a href="#chamas">Chamas</a>
       <a href="#pricing">Pricing</a>
     </div>
     <a class="nav-cta" href="#cta">Get early access</a>
@@ -662,27 +649,6 @@
   </div>
 </section>
 
-<section id="chamas" class="chama">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <div class="kicker">For chamas</div>
-      <h2 class="section-title">Your chama's book, kept straight on WhatsApp.</h2>
-    </div>
-    <div class="chama-card reveal">
-      <div>
-        <p>Treasurers record contributions, loans, repayments and fines by text or voice note, in Swahili or English. Biashara AI works out balances and interest using your chama's own rules, so every member's figures are clear.</p>
-        <p class="note">Records only. Biashara AI never holds or moves chama money.</p>
-      </div>
-      <ul>
-        <li>Table banking and merry-go-round, or both</li>
-        <li>Loans with your own interest rate, flat or reducing balance</li>
-        <li>Member statements, who hasn't paid, and open loans on request</li>
-        <li>Meeting summaries you can forward to the group</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
 <section id="calculator">
   <div class="wrap">
     <div class="section-head reveal">
@@ -778,18 +744,6 @@
         </ul>
         <a class="btn-tier" href="https://wa.me/254182832313?text=Hi%20Biashara%20AI%21%20I%27d%20like%20to%20start%20my%20free%20month.%20Ref%3A%20WEB4" target="_blank" rel="noopener">Start free month</a>
       </div>
-      <div class="price-card reveal">
-        <h3>Chama</h3>
-        <div class="price">KSh 799<span>/mo</span></div>
-        <div class="for">For table banking groups & merry-go-rounds</div>
-        <ul>
-          <li>Unlimited members, meetings and records</li>
-          <li>Contributions, fines and loans with your own interest rules</li>
-          <li>Member statements, arrears and loan reports</li>
-          <li>First month free for your whole chama</li>
-        </ul>
-        <a class="btn-tier" href="https://wa.me/254182832313?text=Hi%20Biashara%20AI%21%20I%27d%20like%20to%20start%20a%20free%20month%20for%20our%20chama.%20Ref%3A%20WEB5" target="_blank" rel="noopener">Start your chama</a>
-      </div>
     </div>
   </div>
 </section>
@@ -815,7 +769,6 @@
         <div class="footer-col">
           <h4>Product</h4>
           <a href="#features">Features</a>
-          <a href="#chamas">Chamas</a>
           <a href="#pricing">Pricing</a>
           <a href="#how">How it works</a>
         </div>
