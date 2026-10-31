@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Opening WhatsApp · Biashara AI</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.ico" sizes="any">
+<style>
+  :root{--ink:#1A1A1A;--paper:#FFF8EC;--green:#0B3D2E;--leaf:#2EAA6E;--orange:#F4A340}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{background:var(--paper);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;display:flex;align-items:center;justify-content:center;padding:24px 16px}
+  .card{max-width:420px;width:100%;text-align:center;display:flex;flex-direction:column;gap:18px;align-items:center}
+  .logo{width:64px;height:64px;border-radius:16px;background:var(--green);color:var(--paper);font:700 42px/64px Georgia,serif;position:relative}
+  .logo i{position:absolute;right:9px;top:9px;width:11px;height:11px;border-radius:50%;background:var(--leaf)}
+  h1{font-size:1.5rem;color:var(--green)}
+  p{color:#555;line-height:1.5}
+  .dots{display:flex;gap:8px}
+  .dots span{width:10px;height:10px;border-radius:50%;background:var(--leaf);animation:b 1s infinite ease-in-out}
+  .dots span:nth-child(2){animation-delay:.15s}.dots span:nth-child(3){animation-delay:.3s}
+  @keyframes b{0%,80%,100%{opacity:.25}40%{opacity:1}}
+  @media (prefers-reduced-motion:reduce){.dots span{animation:none;opacity:.7}}
+  a.btn{display:inline-block;background:var(--green);color:#fff;text-decoration:none;font-weight:600;padding:14px 26px;border-radius:999px}
+  a.btn:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+  .small{font-size:.85rem;color:#777}
+</style>
+</head>
+<body>
+<main class="card">
+  <div class="logo" aria-hidden="true">B<i></i></div>
+  <h1>Opening WhatsApp…</h1>
+  <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
+  <p>Your chat with Biashara AI is opening. Send the message that appears to start your free month.</p>
+  <a class="btn" id="go" href="https://wa.me/254182832313">Open WhatsApp</a>
+  <p class="small">Nothing happened? Tap the button, or search <b>@biasharaai</b> in WhatsApp.</p>
+</main>
+<script>
+  // Which website button sent them here (Ref: WEB1-WEB7), and whether they came from a paid ad.
+  var q = new URLSearchParams(location.search);
+  var ref = /^WEB\d{1,2}$/.test(q.get('ref') || '') ? q.get('ref') : 'WEB1';
+  var ad = q.get('ad') === '1' ? '-AD' : '';
+  var text = "Hi Biashara AI! I'd like to start my free month. Ref: " + ref + ad;
+  var url = 'https://wa.me/254182832313?text=' + encodeURIComponent(text);
+  document.getElementById('go').href = url;
+  // A short pause lets the visit be counted before WhatsApp opens.
+  setTimeout(function () { location.replace(url); }, 900);
+</script>
+</body>
+</html>
